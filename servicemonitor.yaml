@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: app-namespace-monitor
+  namespace: app-namespace
+spec:
+  namespaceSelector:
+    matchNames:
+      - app-namespace
+  selector:
+    matchLabels:
+      app: prometheus
+  endpoints:
+    - port: http
+      interval: 15s

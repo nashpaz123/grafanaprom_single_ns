@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-load
+spec:
+  containers:
+  - name: cpu-load
+    image: busybox:latest  # Replace with the actual image for CPU load generation
+    command: ["sh", "-c", "while true; do for i in $(seq 1 $(nproc)); do sleep 0.1; done; done"] # Adjust sleep time for load
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cpu-load-service
+spec:
+  selector:
+    app: cpu-load
+  ports:
+  - protocol: TCP
+    port: 80  # Replace with the port your application exposes metrics on (default 80)
+    targetPort: 80  # Replace with the port your application exposes metrics on (default 80)
+  type: ClusterIP  # Exposes the service internally within the cluster
